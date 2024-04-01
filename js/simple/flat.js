@@ -11,7 +11,7 @@ const arr = [1, [2], [3, [4]]];
 //   return res;
 // }
 function flat(arr, depth = 1) {
-  return depth ? arr.reduce((pre, cur) => pre.concat(Array.isArray(cur) ? flat(cur, depth - 1) : [cur]), []) : arr;
+  return depth ? arr.reduce((pre, cur) => pre.concat(Array.isArray(cur) ? flat(cur, depth - 1) : cur), []) : arr;
 }
 flat(arr)
 console.log("🚀 ~ flat(arr):", flat(arr))
