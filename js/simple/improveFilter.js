@@ -1,18 +1,24 @@
 
 function excludeItems(items, excludes) { 
- const excludeMap = new Map();
- for (let {k, v} of excludes) {
-  if (!excludeMap.has(k)) {
-    excludeMap.set(k, new Set());
-  }
-  excludeMap.get(k).add(v);
- }
-return items.filter(item => {
-  return Object.keys(item).every(
-    key => !excludeMap.has(key) || !excludeMap.get(key).has(item[key])
-  )
-})
-} 
+  const excludeMap = {};
+  excludes.forEach(exclude => {
+    excludeMap[exclude.k] = exclude.v;
+  });
+  
+  return items.filter(item => {
+    for (const key in item) {
+      if (key in excludeMap && item[key] === excludeMap[key]) {
+        return false;
+      }
+    }
+    return true;
+  });  
+}
+// function excludeItems(items, excludes) { 
+//   return items.filter(item => 
+//     excludes.every(exclude => item[exclude.k] !== exclude.v)
+//   );
+// }
 let items = [
   {color: 'red', type: 'tv', age: 18}, 
   {color: 'silver', type: 'phone', age: 20},
