@@ -1,30 +1,46 @@
-
 class Queue {
-  constructor () {
-    this.stack1 = new Stack();
-    this.stack2 = new Stack();
+  constructor() {
+    this.pushStack = new Stack()
+    this.popStack = new Stack()
   }
+  
   enqueue(element) { 
-    for (let i = 0; i < this.stack1.size(); i++) {
-      this.stack2.push(this.stack1.pop());
-    }
-    this.stack1.push(element);
-    for (let i = 0; i < this.stack2.size(); i++) {
-      this.stack1.push(this.stack2.pop());
-    }
+    this.pushStack.push(element)  
   }
+  
+  move() {
+     while (this.pushStack.size() > 0) {
+       this.popStack.push(this.pushStack.pop())
+     }
+  }
+  
   peek() { 
-    return this.stack1.peek();
+    if (this.popStack.size() > 0) {
+      return this.popStack.peek()
+    }
+    
+    if (this.pushStack.size() > 0) {
+      this.move()
+      return this.popStack.peek()
+    }
+    
+    return undefined
   }
+  
   size() { 
-    return this.stack1.size()
+    return this.pushStack.size() + this.popStack.size()
   }
+  
   dequeue() {
-    return this.stack1.pop();
+    if (this.popStack.size() > 0) {
+      return this.popStack.pop()
+    }
+    
+    if (this.pushStack.size() > 0) {
+      this.move()
+      return this.popStack.pop()
+    }
+    
+    return undefined
   }
 }
-// 5
-// stack1=[1,2,3,4]
-// stack2=[4,3,2,1]
-// stack1=[5]
-// stack1=[5,4,3,2,1]
